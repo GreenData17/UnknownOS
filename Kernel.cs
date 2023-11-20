@@ -21,6 +21,7 @@ namespace UnknownOS
         {
             Instance = this;
             settingsManager = new SettingsManager();
+            Process.Instantiate(new StartUpProc());
         }
 
         protected override void Run()
