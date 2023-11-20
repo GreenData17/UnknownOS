@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace UnknownOS.Core
 {
+    /// <summary>
+    /// The raw Process class on which every <br/> process has to be based on.
+    /// </summary>
     public class Process
     {
         public enum PriorityLevel
