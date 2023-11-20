@@ -9,7 +9,9 @@ namespace UnknownOS.Programs
 {
     internal class StartUpProc : Process
     {
-        public StartUpProc()
+        public StartUpProc() : base("StartUpProc", PriorityLevel.System) { }
+
+        public override void Start()
         {
             Console.Clear();
             Console.WriteLine("[ SYSTEM ]  System starting...");

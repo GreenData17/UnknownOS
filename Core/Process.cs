@@ -32,26 +32,40 @@ namespace UnknownOS.Core
             }
         }
 
+        public string name = "New Process";
+        private bool _hasStarted = false;
+        public bool hasStarted { get => _hasStarted; }
 
-        public Process(PriorityLevel priorityLevel)
+
+        public Process(string name, PriorityLevel priorityLevel)
         {
+            this.name = name;
             _priority = priorityLevel;
-            Setup();
         }
 
         public Process()
         {
             _priority = PriorityLevel.Low;
-            Setup();
         }
 
 
-        private void Setup() => Kernel.Instance.AddProcess(this);
         public PriorityLevel GetPriorityLevel() => _priority;
         public void Destroy() => Kernel.Instance.RemoveProcess(this);
 
 
+        public void TriggerUpdate()
+        {
+            if (!hasStarted) InternalStart();
+            Update();
+        }
+        private void InternalStart()
+        {
+            Start();
+            _hasStarted = true;
+        }
+
         public virtual void Update() { }
+        public virtual void Start() { }
 
 
         /// <summary>

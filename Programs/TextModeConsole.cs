@@ -23,7 +23,9 @@ namespace UnknownOS.Programs
         public int cursorX = 0;
         public int cursorY = 0;
 
-        public TextModeConsole() : base(PriorityLevel.System)
+        public TextModeConsole() : base("TextModeConsole", PriorityLevel.System) { }
+
+        public override void Start()
         {
             _output = new List<string>();
             _output.Add("");
