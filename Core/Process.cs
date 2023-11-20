@@ -50,7 +50,7 @@ namespace UnknownOS.Core
 
 
         public PriorityLevel GetPriorityLevel() => _priority;
-        public void Destroy() => Kernel.Instance.RemoveProcess(this);
+        public void Destroy() => Kernel.Instance.processManager.RemoveProcess(this);
 
 
         public void TriggerUpdate()
@@ -72,6 +72,6 @@ namespace UnknownOS.Core
         /// Creates a new Process and adds it in the runtime loop.
         /// </summary>
         /// <param name="process"></param>
-        public static void Instantiate(Process process) => Kernel.Instance.AddProcess(process);
+        public static void Instantiate(Process process) => Kernel.Instance.processManager.AddProcess(process);
     }
 }
