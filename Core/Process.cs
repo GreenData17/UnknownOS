@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace UnknownOS.Core
 {
+    /// <summary>
+    /// The raw Process class on which every <br/> process has to be based on.
+    /// </summary>
     public class Process
     {
         public enum PriorityLevel
@@ -29,26 +32,46 @@ namespace UnknownOS.Core
             }
         }
 
-        public Process(PriorityLevel priorityLevel)
+        public string name = "New Process";
+        private bool _hasStarted = false;
+        public bool hasStarted { get => _hasStarted; }
+
+
+        public Process(string name, PriorityLevel priorityLevel)
         {
+            this.name = name;
             _priority = priorityLevel;
-            Setup();
         }
 
         public Process()
         {
             _priority = PriorityLevel.Low;
-            Setup();
         }
 
-        private void Setup()
+
+        public PriorityLevel GetPriorityLevel() => _priority;
+        public void Destroy() => Kernel.Instance.processManager.RemoveProcess(this);
+
+
+        public void TriggerUpdate()
         {
-            if( _priority == PriorityLevel.System ) Kernel.Instance.AddToSystemProcesses(this);
-            if( _priority == PriorityLevel.High ) Kernel.Instance.AddToHighProcesses(this);
-            if( _priority == PriorityLevel.Medium ) Kernel.Instance.AddToMediumProcesses(this);
-            if( _priority == PriorityLevel.Low ) Kernel.Instance.AddToLowProcesses(this);
+            if (!hasStarted) InternalStart();
+            Update();
+        }
+        private void InternalStart()
+        {
+            Start();
+            _hasStarted = true;
         }
 
         public virtual void Update() { }
+        public virtual void Start() { }
+
+
+        /// <summary>
+        /// Creates a new Process and adds it in the runtime loop.
+        /// </summary>
+        /// <param name="process"></param>
+        public static void Instantiate(Process process) => Kernel.Instance.processManager.AddProcess(process);
     }
 }

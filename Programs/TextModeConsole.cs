@@ -23,14 +23,15 @@ namespace UnknownOS.Programs
         public int cursorX = 0;
         public int cursorY = 0;
 
-        public TextModeConsole() : base(PriorityLevel.System)
+        public TextModeConsole() : base("TextModeConsole", PriorityLevel.System) { }
+
+        public override void Start()
         {
             _output = new List<string>();
             _output.Add("");
             prefix = "> ";
             input = "";
 
-            // Setup variables
             _variables.Add("OS_NAME", Kernel.Instance.settingsManager.Settings["global.system.name"]);
             _variables.Add("OS_VERSION", Kernel.Instance.settingsManager.Settings["global.system.version"]);
 
@@ -40,7 +41,7 @@ namespace UnknownOS.Programs
             Console.OutputEncoding = Encoding.GetEncoding(437);
             Console.CursorSize = 20;
 
-            // prepare console output
+            // Prepare console output
             Console.Clear();
             Console.Write(prefix);
         }
@@ -49,6 +50,7 @@ namespace UnknownOS.Programs
         {
             if (!KeyboardManager.TryReadKey(out var keyEvent)) return;
 
+            // Special key Events
             if (keyEvent.Key == ConsoleKeyEx.Escape)
             {
                 Power.Shutdown();
