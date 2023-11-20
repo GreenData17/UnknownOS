@@ -48,8 +48,16 @@ namespace UnknownOS.Core
 
         private void Setup() => Kernel.Instance.AddProcess(this);
         public PriorityLevel GetPriorityLevel() => _priority;
+        public void Destroy() => Kernel.Instance.RemoveProcess(this);
 
 
         public virtual void Update() { }
+
+
+        /// <summary>
+        /// Creates a new Process and adds it in the runtime loop.
+        /// </summary>
+        /// <param name="process"></param>
+        public static void Instantiate(Process process) => Kernel.Instance.AddProcess(process);
     }
 }

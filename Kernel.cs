@@ -10,18 +10,17 @@ namespace UnknownOS
     public class Kernel : Sys.Kernel
     {
         public static Kernel Instance;
-        public TextModeConsole console;
         public SettingsManager settingsManager;
 
         private readonly List<Process> _processes = new List<Process>();
 
         public void AddProcess(Process process) => _processes.Add(process);
+        public void RemoveProcess(Process process) => _processes.Remove(process);
 
         protected override void BeforeRun()
         {
             Instance = this;
             settingsManager = new SettingsManager();
-            console = new TextModeConsole();
         }
 
         protected override void Run()
