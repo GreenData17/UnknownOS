@@ -32,6 +32,7 @@ namespace UnknownOS.Core
             }
         }
 
+
         public Process(PriorityLevel priorityLevel)
         {
             _priority = priorityLevel;
@@ -44,13 +45,10 @@ namespace UnknownOS.Core
             Setup();
         }
 
-        private void Setup()
-        {
-            if( _priority == PriorityLevel.System ) Kernel.Instance.AddToSystemProcesses(this);
-            if( _priority == PriorityLevel.High ) Kernel.Instance.AddToHighProcesses(this);
-            if( _priority == PriorityLevel.Medium ) Kernel.Instance.AddToMediumProcesses(this);
-            if( _priority == PriorityLevel.Low ) Kernel.Instance.AddToLowProcesses(this);
-        }
+
+        private void Setup() => Kernel.Instance.AddProcess(this);
+        public PriorityLevel GetPriorityLevel() => _priority;
+
 
         public virtual void Update() { }
     }

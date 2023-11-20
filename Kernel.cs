@@ -13,15 +13,9 @@ namespace UnknownOS
         public TextModeConsole console;
         public SettingsManager settingsManager;
 
-        private List<Process> systemProcesses = new List<Process>();
-        private List<Process> highProcesses = new List<Process>();
-        private List<Process> mediumProcesses = new List<Process>();
-        private List<Process> lowProcesses = new List<Process>();
+        private readonly List<Process> _processes = new List<Process>();
 
-        public void AddToSystemProcesses(Process process) => systemProcesses.Add(process);
-        public void AddToHighProcesses(Process process) => highProcesses.Add(process);
-        public void AddToMediumProcesses(Process process) => mediumProcesses.Add(process);
-        public void AddToLowProcesses(Process process) => lowProcesses.Add(process);
+        public void AddProcess(Process process) => _processes.Add(process);
 
         protected override void BeforeRun()
         {
@@ -32,10 +26,16 @@ namespace UnknownOS
 
         protected override void Run()
         {
-            foreach (Process process in systemProcesses) process.Update();
-            foreach (Process process in highProcesses) process.Update();
-            foreach (Process process in mediumProcesses) process.Update();
-            foreach (Process process in lowProcesses) process.Update();
+            for (int i = 0; i < 4; i++)
+            {
+                foreach (Process process in _processes)
+                {
+                    if (process.GetPriorityLevel() == (Process.PriorityLevel)i)
+                    {
+                        process.Update();
+                    }
+                }
+            }
         }
     }
 }
