@@ -30,17 +30,19 @@ namespace UnknownOS.Programs
             prefix = "> ";
             input = "";
 
+            // Setup variables
             _variables.Add("OS_NAME", Kernel.Instance.settingsManager.Settings["global.system.name"]);
             _variables.Add("OS_VERSION", Kernel.Instance.settingsManager.Settings["global.system.version"]);
 
+            // Setup Console
             Encoding.RegisterProvider(CosmosEncodingProvider.Instance);
             Console.InputEncoding = Encoding.GetEncoding(437);
             Console.OutputEncoding = Encoding.GetEncoding(437);
             Console.CursorSize = 20;
 
+            // prepare console output
             Console.Clear();
             Console.Write(prefix);
-            //WriteToConsole("Welcome to $OS_NAME $OS_VERSION!");
         }
 
         public override void Update()
