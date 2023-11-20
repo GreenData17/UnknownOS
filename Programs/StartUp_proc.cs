@@ -14,24 +14,36 @@ namespace UnknownOS.Programs
         public override void Start()
         {
             Console.Clear();
-            Console.WriteLine("[ SYSTEM ]  System starting...");
-            Console.WriteLine("[ SYSTEM ]  System started!");
+            PrintDebug("SYSTEM", ConsoleColor.Green, "  System starting...");
+            PrintDebug("SYSTEM", ConsoleColor.Green, "  System started!");
 
 
-            Console.WriteLine("[ SYSTEM ]  Starting Filesystem...");
+            PrintDebug("SYSTEM", ConsoleColor.Green, "  Starting Filesystem...");
             // TODO: Start Filesystem Process here!
-            Console.WriteLine("[ ERROR ]   Filesystem is not implemented yet!");
+            PrintDebug("ERROR", ConsoleColor.Red, "   Filesystem is not implemented yet!");
 
 
-            Console.WriteLine("[ SYSTEM ]  Starting default apps...");
+            PrintDebug("SYSTEM", ConsoleColor.Green, "  Starting default apps...");
             Process.Instantiate(new TextModeConsole());
 
 
-            Console.WriteLine("[ DEBUG ]   Waiting for input to continue...");
+            PrintDebug("DEBUG", ConsoleColor.Cyan, "   Waiting for input to continue...");
             Console.ReadLine();
             Console.Clear();
 
             Destroy();
+        }
+
+        private void PrintDebug(string prefix, ConsoleColor prefixColor, string msg)
+        {
+            Console.Write("[ ");
+            Console.ForegroundColor = prefixColor;
+            Console.Write(prefix);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(" ]");
+
+            Console.Write(msg);
+            Console.WriteLine();
         }
     }
 }
