@@ -30,7 +30,6 @@ namespace UnknownOS.Programs
             prefix = "> ";
             input = "";
 
-            // Setup variables
             _variables.Add("OS_NAME", Kernel.Instance.settingsManager.Settings["global.system.name"]);
             _variables.Add("OS_VERSION", Kernel.Instance.settingsManager.Settings["global.system.version"]);
 
@@ -40,7 +39,7 @@ namespace UnknownOS.Programs
             Console.OutputEncoding = Encoding.GetEncoding(437);
             Console.CursorSize = 20;
 
-            // prepare console output
+            // Prepare console output
             Console.Clear();
             Console.Write(prefix);
         }
@@ -49,6 +48,7 @@ namespace UnknownOS.Programs
         {
             if (!KeyboardManager.TryReadKey(out var keyEvent)) return;
 
+            // Special key Events
             if (keyEvent.Key == ConsoleKeyEx.Escape)
             {
                 Power.Shutdown();
