@@ -19,6 +19,21 @@ namespace UnknownOS.Core
             Settings.Add("global.filesystem.root", "0:\\");
         }
 
+        public string GetSetting(string key)
+        {
+            return Settings[key];
+        }
+
+        public void AddSetting(string key, string value)
+        {
+            Settings.Add(key, value);
+        }
+
+        public void UpdateSetting(string key, string value)
+        {
+            Settings[key] = value;
+        }
+
         private void LoadSettingsFile()
         {
             // TODO: load on start up files in the /etc folder

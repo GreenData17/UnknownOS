@@ -19,13 +19,20 @@ namespace UnknownOS.Core
             Low
         }
 
+        private int _id = 0;
         private PriorityLevel _priority;
         private PriorityLevel priority 
+        public int id
         {
-            get => _priority; 
+            get => _id;
             set
             {
-                if (value == PriorityLevel.System) 
+                if (_id == 0)
+                {
+                    _id = value;
+                }
+            }
+        }
                     _priority = PriorityLevel.High;
                 else 
                     _priority = value;

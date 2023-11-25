@@ -12,8 +12,22 @@ namespace UnknownOS.Core
         private List<Process> _processesWaitForInit = new List<Process>();
         private List<Process> _processesWaitForDeletion = new List<Process>();
 
-        public void AddProcess(Process process) => _processesWaitForInit.Add(process);
+        public void AddProcess(Process process) => CreateProcessId(process);
         public void RemoveProcess(Process process) => _processesWaitForDeletion.Add(process);
+        public Process FindProcess(int processId) => _processes.Find(process => { return process.id == processId; });
+
+        private void CreateProcessId(Process process)
+        {
+            if (_processes.Count == 0)
+            {
+                process.id = 1;
+                _processes.Add(process);
+            }
+
+            int newId = _processes[_processes.Count - 1].id + 1;
+            process.id = newId;
+            _processesWaitForInit.Add(process);
+        }
 
         public void Update()
         {
