@@ -23,11 +23,7 @@ namespace UnknownOS.Programs
             PrintDebug("SYSTEM", ConsoleColor.Green, "  Filesystem Starting...");
             InitFileSystem();
             PrintDebug("DEBUG", ConsoleColor.Cyan, "   Detected Disk Count: " + VFSManager.GetDisks().Count);
-            for (int i = 0; i < VFSManager.GetDisks().Count; i++) // Even though there are two?! disks, it crashes if you try to get disks without registering at least one. WTF!
-            {
-                Console.WriteLine("[ INTERNAL ] Disk " + i + ": ");
-                VFSManager.GetDisks()[i].DisplayInformation();
-            }
+            PrintDiskData();
             PrintDebug("SYSTEM", ConsoleColor.Green, "  FileSystem Started!");
 
 
@@ -40,6 +36,17 @@ namespace UnknownOS.Programs
             Console.Clear();
 
             Destroy();
+        }
+
+        private void PrintDiskData()
+        {
+            // Even though there are two?! disks, it crashes if you try to get disks without registering at least one. WTF!
+
+            for (int i = 0; i < VFSManager.GetDisks().Count; i++)
+            {
+                Console.WriteLine("[ INTERNAL ] Disk " + i + ": ");
+                VFSManager.GetDisks()[i].DisplayInformation();
+            }
         }
 
         private void InitFileSystem()
