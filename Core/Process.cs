@@ -20,8 +20,13 @@ namespace UnknownOS.Core
         }
 
         private int _id = 0;
+        public string name = "New Process";
+        private bool _hasStarted = false;
         private PriorityLevel _priority;
-        private PriorityLevel priority 
+
+
+        // Properties
+
         public int id
         {
             get => _id;
@@ -33,16 +38,25 @@ namespace UnknownOS.Core
                 }
             }
         }
+
+        public bool hasStarted
+        {
+            get => _hasStarted;
+        }
+
+        private PriorityLevel priority
+        {
+            get => _priority;
+            set
+            {
+                if (value == PriorityLevel.System)
                     _priority = PriorityLevel.High;
-                else 
+                else
                     _priority = value;
             }
         }
 
-        public string name = "New Process";
-        private bool _hasStarted = false;
-        public bool hasStarted { get => _hasStarted; }
-
+        // Public functions
 
         public Process(string name, PriorityLevel priorityLevel)
         {
@@ -59,21 +73,29 @@ namespace UnknownOS.Core
         public PriorityLevel GetPriorityLevel() => _priority;
         public void Destroy() => Kernel.Instance.processManager.RemoveProcess(this);
 
+        // Overrides
 
         public void TriggerUpdate()
         {
             if (!hasStarted) InternalStart();
             Update();
         }
+
+        // private Functions
+
         private void InternalStart()
         {
             Start();
             _hasStarted = true;
         }
 
+        // Overrides
+
         public virtual void Update() { }
         public virtual void Start() { }
 
+
+        // Static Functions
 
         /// <summary>
         /// Creates a new Process and adds it in the runtime loop.
