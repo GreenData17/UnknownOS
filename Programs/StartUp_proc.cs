@@ -24,7 +24,7 @@ namespace UnknownOS.Programs
 
 
             PrintDebug("SYSTEM", ConsoleColor.Green, "  Starting default apps...");
-            Process.Instantiate(new TextModeConsole());
+            Instantiate(new TextModeConsole());
 
 
             PrintDebug("DEBUG", ConsoleColor.Cyan, "   Waiting for input to continue...");
