@@ -12,6 +12,9 @@ namespace UnknownOS.Programs
     public class TextModeConsole : Process
     {
         private Dictionary<string, string> _variables = new Dictionary<string, string>();
+        private int _currentDisk = 0;
+        private string _currentPath = @"\";
+
 
         private const int WIDTH = 80;
         private const int HEIGHT = 24;
@@ -34,6 +37,7 @@ namespace UnknownOS.Programs
 
             _variables.Add("OS_NAME", Kernel.Instance.settingsManager.Settings["global.system.name"]);
             _variables.Add("OS_VERSION", Kernel.Instance.settingsManager.Settings["global.system.version"]);
+            Kernel.Instance.settingsManager.AddSetting("global.console.session1.path", _currentDisk + ":" + _currentPath);
 
             // Setup Console
             Encoding.RegisterProvider(CosmosEncodingProvider.Instance);
@@ -48,6 +52,8 @@ namespace UnknownOS.Programs
 
         public override void Update()
         {
+            // KeyEvent manager
+
             if (!KeyboardManager.TryReadKey(out var keyEvent)) return;
 
             // Special key Events
