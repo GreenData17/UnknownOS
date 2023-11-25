@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cosmos.System.FileSystem;
+using Cosmos.System.FileSystem.VFS;
 using UnknownOS.Core;
 
 namespace UnknownOS.Programs
@@ -18,9 +20,15 @@ namespace UnknownOS.Programs
             PrintDebug("SYSTEM", ConsoleColor.Green, "  System started!");
 
 
-            PrintDebug("SYSTEM", ConsoleColor.Green, "  Starting Filesystem...");
-            // TODO: Start Filesystem Process here!
-            PrintDebug("ERROR", ConsoleColor.Red, "   Filesystem is not implemented yet!");
+            PrintDebug("SYSTEM", ConsoleColor.Green, "  Filesystem Starting...");
+            InitFileSystem();
+            PrintDebug("DEBUG", ConsoleColor.Cyan, "   Detected Disk Count: " + VFSManager.GetDisks().Count);
+            for (int i = 0; i < VFSManager.GetDisks().Count; i++) // Even though there are two?! disks, it crashes if you try to get disks without registering at least one. WTF!
+            {
+                Console.WriteLine("[ INTERNAL ] Disk " + i + ": ");
+                VFSManager.GetDisks()[i].DisplayInformation();
+            }
+            PrintDebug("SYSTEM", ConsoleColor.Green, "  FileSystem Started!");
 
 
             PrintDebug("SYSTEM", ConsoleColor.Green, "  Starting default apps...");
@@ -32,6 +40,12 @@ namespace UnknownOS.Programs
             Console.Clear();
 
             Destroy();
+        }
+
+        private void InitFileSystem()
+        {
+            CosmosVFS VirtualFileSystem = new CosmosVFS();
+            VFSManager.RegisterVFS(VirtualFileSystem);
         }
 
         private void PrintDebug(string prefix, ConsoleColor prefixColor, string msg)
