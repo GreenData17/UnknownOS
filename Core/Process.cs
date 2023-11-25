@@ -24,6 +24,7 @@ namespace UnknownOS.Core
         private bool _hasStarted = false;
         private PriorityLevel _priority;
 
+        private List<string> StandardOutput = new List<string>();
 
         // Properties
 
@@ -72,6 +73,14 @@ namespace UnknownOS.Core
 
         public PriorityLevel GetPriorityLevel() => _priority;
         public void Destroy() => Kernel.Instance.processManager.RemoveProcess(this);
+        public void AddOutput(string output) => StandardOutput.Add(output);
+
+        public List<string> GetOutput()
+        {
+            OnStandardOutputRead();
+            return StandardOutput;
+        }
+
 
         // Overrides
 
@@ -94,6 +103,7 @@ namespace UnknownOS.Core
         public virtual void Update() { }
         public virtual void Start() { }
 
+        public virtual void OnStandardOutputRead() { }
 
         // Static Functions
 
