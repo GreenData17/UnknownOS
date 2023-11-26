@@ -111,10 +111,9 @@ namespace UnknownOS.Core
         /// Creates a new Process and adds it in the runtime loop.
         /// </summary>
         /// <param name="process"></param>
-
-        public static void Instantiate(Process process)
+        public static int Instantiate(Process process)
         {
-            Kernel.Instance.processManager.AddProcess(process);
+            return Kernel.Instance.processManager.AddProcess(process);
         }
     }
 }

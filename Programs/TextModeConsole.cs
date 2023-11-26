@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Cosmos.System;
 using Cosmos.System.ExtendedASCII;
 using UnknownOS.Core;
+using UnknownOS.Programs.commands;
 using Console = System.Console;
 
 namespace UnknownOS.Programs
@@ -14,7 +15,7 @@ namespace UnknownOS.Programs
         private Dictionary<string, string> _variables = new Dictionary<string, string>();
         private int _currentDisk = 0;
         private string _currentPath = @"\";
-
+        private int _currentlyCalledProcess = 0;
 
         private const int WIDTH = 80;
         private const int HEIGHT = 24;
@@ -52,8 +53,34 @@ namespace UnknownOS.Programs
 
         public override void Update()
         {
-            // KeyEvent manager
+            // ------
 
+            if (_currentlyCalledProcess != 0)
+            {
+                Process proc = Kernel.Instance.processManager.FindProcess(_currentlyCalledProcess);
+
+                if (proc == null)
+                {
+                    _currentlyCalledProcess = 0;
+                    return;
+                }
+
+                proc.TriggerUpdate();
+
+
+                foreach (string output in proc.GetOutput())
+                {
+                    Console.WriteLine(output);
+                }
+
+                return;
+            }
+
+            // ------
+
+
+
+            // KeyEvent manager
             if (!KeyboardManager.TryReadKey(out var keyEvent)) return;
 
             // Special key Events
@@ -64,6 +91,28 @@ namespace UnknownOS.Programs
             else
             if (keyEvent.Key == ConsoleKeyEx.Enter)
             {
+                if (input == "ls")
+                {
+                    _currentlyCalledProcess = Instantiate(new ls());
+                }
+
+
+                else
+                {
+                    // TODO: output -> command not found
+                }
+
+                Console.SetCursorPosition(prefix.Length,0);
+
+                for (int i = 0; i < input.Length; i++)
+                {
+                    Console.Write(" ");
+                }
+
+                Console.SetCursorPosition(prefix.Length, 0);
+                input = "";
+                cursorX = 0;
+
                 return;
             }
             else
